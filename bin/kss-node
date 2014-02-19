@@ -62,6 +62,10 @@ argv = require('optimist')
 	.alias('m', 'mask')
 	.describe('m', 'Use a custom mask for detecting stylesheets, e.g. "*.css"')
 
+	.string('I')
+	.alias('I', 'import')
+	.describe('I', 'Import file (Stylus only)')
+
 	.alias('i', 'init')
 	.describe('i', 'Create a new styleguide template to work from')
 
@@ -210,6 +214,7 @@ generateStylesheet = function(argv) {
 		async.map(group.files, function (filename, next) {
 			var type = group.type
 			  , extension
+			  , options = {}
 
 			// Type-guessing for --style option
 			if (!type) {
@@ -223,8 +228,12 @@ generateStylesheet = function(argv) {
 			type = type.toLowerCase()
 			console.log(' - ' + filename + ' (' + type + ')')
 
+			if (argv.import) {
+				options.import = argv.import;
+			}
+
 			if (type === 'css') return next(null, fs.readFileSync(filename, 'utf8'))
-			compilers[type].render(filename, next)
+			compilers[type].render(filename, options, next)
 
 		}, function(err, output) {
 			if (err) return next(err)

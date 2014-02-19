@@ -24,6 +24,7 @@ Options:
   -S, --sass      Compile and include a SASS stylesheet          [string]
   -c, --css       Compile and include a CSS stylesheet           [string]
   -m, --mask      Use a custom mask for detecting stylesheets    [string]
+  -I, --import    Import file (Stylus only)                      [string]
   -i, --init      Create a new styleguide template to work from
 ```
 
